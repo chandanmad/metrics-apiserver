@@ -18,8 +18,8 @@ import (
 	"fmt"
 	"net"
 	"k8s.io/apiserver/pkg/server/options"
-	"k8s.io/kubernetes/staging/src/k8s.io/apiserver/pkg/endpoints/request"
 	"github.com/pkg/errors"
+	"k8s.io/apiserver/pkg/endpoints/discovery"
 )
 
 var (
@@ -56,6 +56,8 @@ func NewMetricServer() (*MetricServer, error) {
 	}
 	secureServingOptions.ApplyTo(config)
 	config.ReadWritePort = 443
+	config.ExternalAddress = "localhost:443"
+	config.DiscoveryAddresses = discovery.DefaultAddresses{DefaultAddress: config.ExternalAddress}
 	config.Version = &version.Info{Major: "1", Minor: "0"}
 
 	genericserver, err := config.SkipComplete().New("metrics-apiserver", genericapiserver.EmptyDelegate)
@@ -94,11 +96,11 @@ func (source *MetricSource) New() runtime.Object {
 }
 
 func (source *MetricSource) Get(ctx genericapirequest.Context, name string, options *metav1.GetOptions) (runtime.Object, error) {
-	_, ok := request.RequestInfoFrom(ctx)
+	_, ok := genericapirequest.RequestInfoFrom(ctx)
 	if !ok {
 		return nil, errors.New("RequestInfo not found")
 	}
-	metricValueList := &cm.MetricValueList{}
+	metricValueList := &cm.MetricValueList{Items:[]cm.MetricValue{}}
 	fmt.Println("getter called")
 	return metricValueList, nil
 }
