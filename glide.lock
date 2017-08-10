@@ -1,5 +1,5 @@
-hash: c2396b6bb9e61a663261b3c936b4243d4e95b6e341becfc155ae9afb89861d03
-updated: 2017-08-09T18:43:13.119639202+05:30
+hash: 0a830b057e5c9fa56fe321777ce390d195f883e598c7163efbba6bd0948b994b
+updated: 2017-08-10T13:46:02.411949811+05:30
 imports:
 - name: bitbucket.org/ww/goautoneg
   version: 75cd24fc2f2c2a2088577d12123ddee5f54e0675
@@ -254,6 +254,8 @@ imports:
   - transport
 - name: gopkg.in/inf.v0
   version: 3887ee99ecf07df5b447e9b00d9c0b2adaa9f3e4
+- name: gopkg.in/natefinch/lumberjack.v2
+  version: 20b71e5b60d756d3d2f80def009790325acc2b23
 - name: gopkg.in/yaml.v2
   version: 53feefa2559fb8dfa8d81baad31be332c97d6c77
 - name: k8s.io/api
@@ -327,6 +329,7 @@ imports:
   - pkg/apis/apiserver/install
   - pkg/apis/apiserver/v1alpha1
   - pkg/apis/audit
+  - pkg/apis/audit/install
   - pkg/apis/audit/v1alpha1
   - pkg/apis/audit/validation
   - pkg/audit
@@ -356,6 +359,7 @@ imports:
   - pkg/endpoints/request
   - pkg/features
   - pkg/registry/generic
+  - pkg/registry/generic/registry
   - pkg/registry/rest
   - pkg/server
   - pkg/server/filters
@@ -366,7 +370,9 @@ imports:
   - pkg/server/options
   - pkg/server/routes
   - pkg/server/routes/data/swagger
+  - pkg/server/storage
   - pkg/storage
+  - pkg/storage/errors
   - pkg/storage/etcd
   - pkg/storage/etcd/metrics
   - pkg/storage/etcd/util
@@ -376,6 +382,7 @@ imports:
   - pkg/storage/storagebackend/factory
   - pkg/storage/value
   - pkg/util/feature
+  - pkg/util/flag
   - pkg/util/flushwriter
   - pkg/util/logs
   - pkg/util/proxy
@@ -383,6 +390,8 @@ imports:
   - pkg/util/trie
   - pkg/util/webhook
   - pkg/util/wsstream
+  - plugin/pkg/audit/log
+  - plugin/pkg/audit/webhook
   - plugin/pkg/authenticator/token/webhook
   - plugin/pkg/authorizer/webhook
 - name: k8s.io/client-go
@@ -510,6 +519,12 @@ imports:
   - util/flowcontrol
   - util/homedir
   - util/integer
+- name: k8s.io/kube-openapi
+  version: 80f07ef71bb4f781233c65aa8d0369e4ecafab87
+  subpackages:
+  - pkg/common
+  - pkg/handler
+  - pkg/util
 - name: k8s.io/metrics
   version: 8efbc8e22d00b9c600afec5f1c14073fd2412fce
   subpackages:
